@@ -3,6 +3,8 @@ import { UserService } from './user.service';
 import { ValidationPipe } from 'src/shared/validation.pipe';
 import { UserDTO } from './user.dto';
 import { AuthGuard } from 'src/shared/auth.guard';
+import { User } from './user.decorater';
+import { UserEntity } from './user.entity';
 
 @Controller()
 export class UserController {
@@ -12,7 +14,7 @@ export class UserController {
     @Get('api/users')
     @UseGuards(new AuthGuard())
     @UsePipes(new ValidationPipe())
-    showAll(userService){
+    showAll(){
         return this.userService.showAll();
     }
 
