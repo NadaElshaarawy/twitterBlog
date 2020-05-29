@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, BeforeInsert, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken'; 
 import { UserRo } from './user.dto';
+import { TwitterEntity } from 'src/twitter/twitter.entity';
+import { type } from 'os';
 @Entity('user')
 export class UserEntity{
     @PrimaryGeneratedColumn('uuid')
@@ -21,6 +23,9 @@ export class UserEntity{
     @Column('text')
     password: string;
 
+    @OneToMany(type=>TwitterEntity, tweet=>tweet.author)
+    tweets:TwitterEntity;
+
     @BeforeInsert()
     async hashPassword(){
         this.password = await bcrypt.hash(this.password, 10);
@@ -28,9 +33,12 @@ export class UserEntity{
 
     toResponseObject(showToken: boolean = true) :UserRo{
         const {id, created, username, token}=this;
-        const responseObject: any = {id, created, username};
+        let responseObject: any = {id, created, username};
         if(showToken){
             responseObject.token = token;
+        }
+        if(this.tweets){
+            responseObject.tweets = this.tweets;
         }
         return responseObject;
     }
