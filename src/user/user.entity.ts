@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, BeforeInsert, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, BeforeInsert, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken'; 
 import { UserRo } from './user.dto';
@@ -26,6 +26,10 @@ export class UserEntity{
     @OneToMany(type=>TwitterEntity, tweet=>tweet.author)
     tweets:TwitterEntity;
 
+    @ManyToMany(type=>TwitterEntity, {cascade:true})
+    @JoinTable()
+    bookmarks:TwitterEntity[];
+
     @BeforeInsert()
     async hashPassword(){
         this.password = await bcrypt.hash(this.password, 10);
@@ -39,6 +43,9 @@ export class UserEntity{
         }
         if(this.tweets){
             responseObject.tweets = this.tweets;
+        }
+        if(this.bookmarks){
+            responseObject.bookmarks = this.bookmarks;
         }
         return responseObject;
     }

@@ -1,5 +1,6 @@
 
 import { IsNotEmpty } from 'class-validator';
+import { TwitterEntity } from 'src/twitter/twitter.entity';
 
 export class UserDTO{
     @IsNotEmpty()
@@ -13,4 +14,5 @@ export class UserRo{
     username:string;
     created:Date;
     token?:string;
+    bookmarks?:TwitterEntity[];
 }

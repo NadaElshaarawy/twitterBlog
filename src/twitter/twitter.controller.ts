@@ -11,11 +11,7 @@ import { TwitterEntity } from './twitter.entity';
 export class TwitterController {
     constructor(private twitterService:TwitterService){}
 
-    private ensureOwnership(tweet: TwitterEntity, userId: string){
-        if(tweet.author.id !== userId){
-            throw new HttpException('incorrect user', HttpStatus.UNAUTHORIZED);
-        }
-    }
+    
     @Get()
     findAll(){
         return this.twitterService.showAll();
@@ -46,5 +42,29 @@ export class TwitterController {
     deleteById(@Param('id') id:string, @User('id') user){
         return this.twitterService.destroy(id, user);
         
+    }
+
+    @Post(':id/bookmark')
+    @UseGuards(new AuthGuard())
+    bookmarkTweet(@Param('id') id:string, @User('id')user:string){
+        return this.twitterService.bookmark(id, user);
+    }
+
+    @Delete(':id/bookmark')
+    @UseGuards(new AuthGuard())
+    unbookmarkTweet(@Param('id') id:string, @User('id')user:string){
+        return this.twitterService.unbookmark(id, user);
+    }
+
+    @Post(':id/like')
+    @UseGuards(new AuthGuard())
+    likeTweet(@Param('id') id:string,@User('id') user:string){
+        return this.twitterService.like(id, user);
+    }
+
+    @Post(':id/dislike')
+    @UseGuards(new AuthGuard())
+    dislikeTweet(@Param('id') id:string,@User('id') user:string){
+        return this.twitterService.dislike(id, user);
     }
 }

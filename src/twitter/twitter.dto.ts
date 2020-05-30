@@ -19,4 +19,7 @@ export class TweetRO{
     idea:string;
     description:string;
     author: UserRo;
+    likes?:number;
+    dislikes?:number;
+
 }
