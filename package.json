@@ -24,7 +24,9 @@
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/sequelize": "^0.1.0",
     "@nestjs/typeorm": "^7.0.1",
+    "@types/sequelize": "^4.28.9",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
@@ -36,6 +38,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
     "sequelize": "^5.21.11",
+    "sequelize-typescript": "^1.1.0",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {

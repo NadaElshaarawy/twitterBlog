@@ -37,7 +37,7 @@ export class TwitterService {
 
     async showAll(): Promise<TweetRO[]> {
 
-        const ideas = await this.twitterRepository.find({ relations: ['author', 'likes', 'dislikes'] });
+        const ideas = await this.twitterRepository.find({ relations: ['author', 'likes', 'dislikes','comments'] });
         return ideas.map(idea => this.toResponseObject(idea));
     }
 
@@ -62,7 +62,7 @@ export class TwitterService {
     }
 
     async read(id: string): Promise<TweetRO> {
-        const idea = await this.twitterRepository.findOne({ where: { id }, relations: ['author', 'likes', 'dislikes'] });
+        const idea = await this.twitterRepository.findOne({ where: { id }, relations: ['author', 'likes', 'dislikes', 'comments'] });
         if (!idea) {
             throw new HttpException('Not found', HttpStatus.NOT_FOUND);
         }
@@ -129,7 +129,7 @@ export class TwitterService {
     async like(id: string, userId: string) {
         let tweet = await this.twitterRepository.findOne({
             where: { id },
-            relations: ['author', 'likes', 'dislikes']
+            relations: ['author', 'likes', 'dislikes', 'comments']
         });
         const user = await this.userRepository.findOne({ where: { id: userId } });
         tweet = await this.react(tweet, user, Reacts.LIKE);
@@ -140,7 +140,7 @@ export class TwitterService {
     async dislike(id: string, userId: string) {
         let tweet = await this.twitterRepository.findOne({
             where: { id },
-            relations: ['author', 'likes', 'dislikes']
+            relations: ['author', 'likes', 'dislikes', 'comments']
         });
         const user = await this.userRepository.findOne({ where: { id: userId } });
         tweet = await this.react(tweet, user, Reacts.DISLIKE);

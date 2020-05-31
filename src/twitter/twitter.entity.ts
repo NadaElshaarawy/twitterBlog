@@ -1,6 +1,7 @@
-import {Entity,PrimaryGeneratedColumn,Column,CreateDateColumn, ManyToOne, UpdateDateColumn, ManyToMany, JoinTable} from 'typeorm'; 
+import {Entity,PrimaryGeneratedColumn,Column,CreateDateColumn, ManyToOne, UpdateDateColumn,ManyToMany, OneToMany, JoinTable} from 'typeorm'; 
 import { UserEntity } from 'src/user/user.entity';
 import { type } from 'os';
+import { CommentEntity } from 'src/comment/comment.entity';
 @Entity('twitter')
 export class TwitterEntity{
     @PrimaryGeneratedColumn('uuid')
@@ -28,4 +29,7 @@ export class TwitterEntity{
     @ManyToMany(type=> UserEntity, {cascade:true})
     @JoinTable()
     dislikes : UserEntity[];
+
+    @OneToMany(type=> CommentEntity, comment => comment.tweet, {cascade : true})
+    comments: CommentEntity[];
 }
