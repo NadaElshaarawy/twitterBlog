@@ -7,11 +7,16 @@ import { TwitterModule } from './twitter/twitter.module';
 import { HttpExceptionFilter } from './shared/http-error.filter';
 import { CommentModule } from './comment/comment.module';
 import { UserModule } from './user/user.module';
+import {GraphQLModule} from '@nestjs/graphql';
+
 
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
+    GraphQLModule.forRoot({
+      typePaths:['./**/*.graphql']
+    }),
      TwitterModule,
      UserModule,
      CommentModule],
