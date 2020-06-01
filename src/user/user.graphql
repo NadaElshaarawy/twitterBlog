@@ -1,6 +1,10 @@
 type   User{
-    id:String!
+    id:ID!
     username: String!
+    created: String!
+    bookmarks:[Tweet!]
+    tweets:[Tweet!]
+    comments:[Comment!]
 }
 
 type Query {
