@@ -1,9 +1,0 @@
-type Comment {
-    id:ID!
-    created:String!
-    idea:String!
-}
-
-type Query{
-    comment:[Comment!]
-}

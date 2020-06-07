@@ -8,6 +8,8 @@ import { HttpExceptionFilter } from './shared/http-error.filter';
 import { CommentModule } from './comment/comment.module';
 import { UserModule } from './user/user.module';
 import {GraphQLModule} from '@nestjs/graphql';
+import { join } from 'path';
+import { request } from 'express';
 
 
 
@@ -15,11 +17,18 @@ import {GraphQLModule} from '@nestjs/graphql';
   imports: [
     TypeOrmModule.forRoot(),
     GraphQLModule.forRoot({
-      typePaths:['./**/*.graphql']
+      //typePaths:['./**/*.graphql'],
+      //include:[TestModule],
+      //autoSchemaFile : 'schema.gql',
+      autoSchemaFile: join(process.cwd(), 'schema.gql'),
+      playground:true,
+      debug:true,
+      context: ({ req }) => ({headers: req.headers })
     }),
      TwitterModule,
      UserModule,
-     CommentModule],
+     CommentModule,
+    ],
   controllers: [AppController],
   providers: [AppService,
   {

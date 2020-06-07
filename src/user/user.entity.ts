@@ -4,14 +4,21 @@ import * as jwt from 'jsonwebtoken';
 import { UserRo } from './user.dto';
 import { TwitterEntity } from 'src/twitter/twitter.entity';
 import { type } from 'os';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { CommentEntity } from 'src/comment/comment.entity';
 @Entity('user')
+@ObjectType()
 export class UserEntity{
+
+    @Field()
     @PrimaryGeneratedColumn('uuid')
     id:string;
 
     @CreateDateColumn()
+    @Field()
     created: Date;
 
+    @Field()
     @Column(
         {
             type : 'text',
@@ -23,13 +30,19 @@ export class UserEntity{
     @Column('text')
     password: string;
 
+    
+    @Field((type) => [TwitterEntity], { nullable: true })
     @OneToMany(type=>TwitterEntity, tweet=>tweet.author)
     tweets:TwitterEntity;
 
+    @Field((type) => [TwitterEntity], { nullable: true })
     @ManyToMany(type=>TwitterEntity, {cascade:true})
     @JoinTable()
     bookmarks:TwitterEntity[];
 
+
+
+    
     @BeforeInsert()
     async hashPassword(){
         this.password = await bcrypt.hash(this.password, 10);

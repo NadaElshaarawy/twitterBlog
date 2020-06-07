@@ -1,7 +1,19 @@
 import { IsString } from "class-validator";
-
+import { ObjectType, Field } from "@nestjs/graphql";
+@ObjectType()
 export class CommentDTO {
+
+    @Field()
     @IsString()
-    idea:string;
+    comment:string;
+
+}
+
+
+export class CommentDTOId {
+
+    @Field()
+    @IsString()
+    comment:string;
 
 }

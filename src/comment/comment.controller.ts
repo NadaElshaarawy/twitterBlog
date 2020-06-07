@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/shared/auth.guard';
 import { ValidationPipe } from 'src/shared/validation.pipe';
 import {CommentDTO} from './comment.dto';
 import { User } from 'src/user/user.decorater';
+import { CommentEntity } from './comment.entity';
 
 @Controller('api/comment')
 export class CommentController {
@@ -19,12 +20,17 @@ export class CommentController {
         return this.commentService.showByUser(user);
     }
 
+   
     @Post('tweet/:id')
     @UseGuards(new AuthGuard())
     @UsePipes(new ValidationPipe())
-    createComment(@Param('id') tweet:string, @User('id') user: string, @Body() data: CommentDTO){
-        return this.commentService.create(tweet,user,data);
-    } 
+    createComment(
+      @Param('id') tweet: string,
+      @User('id') user: string,
+      @Body() data: CommentDTO,
+    ) {
+      return this.commentService.create(tweet, user, data);
+    }
 
     @Get(':id')
     showComment(@Param('id') id:string){
@@ -33,7 +39,7 @@ export class CommentController {
 
     @Delete(':id')
     @UseGuards(new AuthGuard())
-    deleteComment(@Param('id') id:string, @User('id') user: string){
-        return this.commentService.deleteComment(id, user);
-    }
+    destroyComment(@Param('id') id: string, @User('id') user: string) {
+    return this.commentService.destroy(id, user);
+  }
 }
