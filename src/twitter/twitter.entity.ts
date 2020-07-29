@@ -40,6 +40,6 @@ export class TwitterEntity{
     @JoinTable()
     dislikes : UserEntity[];
 
-    @OneToMany(type=> CommentEntity, comment => comment.tweet, {cascade : true})
+    @OneToMany(type=> CommentEntity, comment => comment.tweet, {cascade:true})
     comments: CommentEntity[];
 }

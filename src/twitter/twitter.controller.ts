@@ -28,7 +28,7 @@ export class TwitterController {
     @Put(':id')
     @UseGuards(new AuthGuard())
     @UsePipes(new ValidationPipe())
-    updateById(@Param('id') id:string,@User('id') user:string, @Body() data:Partial<TwitterDTO>){
+    updateById(@Param('id') id:string,@User('id') user:string, @Body() data:Partial<TwitterEntity>){
         return this.twitterService.update(id,user, data);
     }
 

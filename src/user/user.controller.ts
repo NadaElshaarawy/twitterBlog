@@ -18,13 +18,25 @@ export class UserController {
         return this.userService.showAll();
     }
 
-    @Post('login')
+    @Get('auth/whoami')
+    @UseGuards(new AuthGuard())
+    showMe(@User ('username') username : string){
+        return this.userService.read(username);
+    }
+
+    @Get('api/users/:username')
+    @UseGuards(new AuthGuard())
+    showOneUser(@User ('username') username : string){
+        return this.userService.read(username);
+    }
+
+    @Post('auth/login')
     @UsePipes(new ValidationPipe())
     login(@Body() data:UserDTO){
         return this.userService.login(data);
     }
 
-    @Post('register')
+    @Post('auth/register')
     @UsePipes(new ValidationPipe())
     register(@Body() data:UserDTO){
         return this.userService.register(data);
